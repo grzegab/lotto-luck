@@ -1,0 +1,134 @@
+<head>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" language="javascript" src="//cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<h2>Lotto part</h2>
+<table id="games-table" class="display" style="width:100%">
+
+</table>
+<h2>Fun part</h2>
+<div>Games:
+    <div id="funSystemCount"></div>
+</div>
+<div>
+    <canvas id="funSystemChart"></canvas>
+</div>
+
+<div>Games:
+    <div id="funUntilHitCount"></div>
+</div>
+<div>
+    <canvas id="funUntilHitChart"></canvas>
+</div>
+
+
+<script src="games.js"></script>
+<script src="results.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#games-table').DataTable({
+            data: dataSet,
+            columns: [
+                { title: 'Lotto ID' },
+                { title: 'Game date' },
+                { title: 'Draw numbers' },
+                { title: 'Prediction numbers' },
+                { title: 'Prediction hits' },
+                { title: 'Last year prediction' },
+                { title: 'Last year hits' },
+                { title: 'Own numbers' },
+                { title: 'Own hits' },
+            ],
+        });
+    });
+</script>
+
+<script>
+    const systemGamesCount = document.getElementById('funSystemCount');
+    systemGamesCount.innerText = funSystemCount;
+    const untilHitGamesCount = document.getElementById('funUntilHitCount');
+    untilHitGamesCount.innerText = funUntilHitCount;
+
+    const ctxSystemChart = document.getElementById('funSystemChart');
+    new Chart(ctxSystemChart, {
+        type: 'line',
+        data: {
+            labels: ['0', '1', '2', '3', '4', '5', '6'],
+            datasets: [
+                {
+                    label: 'count of Hits for system 7',
+                    data: funSystemResults["7"],
+                    borderWidth: 1
+                },
+                {
+                    label: 'count of Hits for system 8',
+                    data: funSystemResults["8"],
+                    borderWidth: 1
+                },
+                {
+                    label: 'count of Hits for system 9',
+                    data: funSystemResults["9"],
+                    borderWidth: 1
+                },
+                {
+                    label: 'count of Hits for system 10',
+                    data: funSystemResults["10"],
+                    borderWidth: 1
+                },
+                {
+                    label: 'count of Hits for system 11',
+                    data: funSystemResults["11"],
+                    borderWidth: 1
+                },
+                {
+                    label: 'count of Hits for system 12',
+                    data: funSystemResults["12"],
+                    borderWidth: 2
+                }
+            ]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    const ctxUntilChart = document.getElementById('funUntilHitChart');
+    new Chart(ctxUntilChart, {
+        type: 'scatter',
+        data: {
+            labels: ['1', '2', '3', '4', '5', '6'],
+            datasets: [
+                {
+                    type: 'line',
+                    label: 'Game play count',
+                    data: funUntilHitResults["count"],
+                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)'
+                }, {
+                    type: 'line',
+                    label: 'Medium hit per game',
+                    data: funUntilHitResults["medium"],
+                    fill: false,
+                    borderColor: 'rgb(54, 162, 235)'
+                }
+            ]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+</body>
